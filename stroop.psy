@@ -1,0 +1,196 @@
+# loading images and basic parameters
+
+bitmaps
+  instruction1
+  instruction2
+  correct
+  mistake
+  fixpoint
+  yellowyellow 
+  yellowgreen  
+  yellowblue   
+  yellowred    
+  redyellow    
+  redgreen     
+  redblue      
+  redred       
+  greenyellow  
+  greengreen   
+  greenblue    
+  greenred     
+  blueyellow   
+  bluegreen    
+  blueblue     
+  bluered 
+  # this is where images for emotionally valenced, coloured words would go     
+  mood_induction    
+
+fonts
+  arial 40
+
+######################################################################################
+# table section for different block conditions
+
+# table: write condition,stimulus,response
+## could use all_before_repeat to randomly use each in table before repeating
+## could also use fixed to make trials go in order as table
+table stroop
+  "yellow yellow 1" yellowyellow 4
+  "yellow green  0" yellowgreen  2
+  "yellow blue   0" yellowblue   3
+  "yellow red    0" yellowred    1
+  "red yellow    0" redyellow    4
+  "red green     0" redgreen     2
+  "red blue      0" redblue      3
+  "red red       1" redred       1
+  "green yellow  0" greenyellow  4
+  "green green   1" greengreen   2
+  "green blue    0" greenblue    3
+  "green red     0" greenred     1
+  "blue yellow   0" blueyellow   4
+  "blue green    0" bluegreen    2
+  "blue blue     1" blueblue     3
+  "blue red      0" bluered      1
+
+# table for emotional stroop
+## could have a different proportion of negative words and all_before_repeat them per block
+## 1 = r, 2 = g, 3 = b, 4 = y
+table emotion
+  "hate"   1   "negative"   "red"
+  "hate"   2   "negative"   "green"
+  "hate"   3   "negative"   "blue"
+  "hate"   4   "negative"   "yellow"
+  "happy"  1   "positive"   "red"
+  "happy"  2   "positive"   "green"
+  "happy"  3   "positive"   "blue"
+  "happy"  4   "positive"   "yellow"
+  "chair"  1   "neutral"    "red"
+  "chair"  2   "neutral"    "green"
+  "chair"  3   "neutral"    "blue"
+  "chair"  4   "neutral"    "yellow"
+
+###################################################################################
+# tasks for different block conditions
+
+task stroop_standard
+  table stroop
+  keys r g b y
+  delay 500
+  show bitmap fixpoint # stimulus 1
+  delay 200
+  clear 1 # remove fixpoint 
+  delay 100
+  show bitmap @2 # stimulus 2
+  readkey @3 3000
+  clear 2 # remove stimulus 2
+  if STATUS == CORRECT
+    show bitmap correct # stimulus 3 (feedback)
+  fi
+  if STATUS != CORRECT  # stimulus 3 (feedback)
+    show bitmap mistake
+  fi
+  delay 500
+  clear 3 # remove feedback stimulus
+  save BLOCKORDER BLOCKNAME @1 KEY STATUS RT 
+  # blockorder, blockname, word, colour, congruency, key pressed, correct status, reaction time
+    # congruency: 1 = congruent, 0 = incongruent
+
+# emotional stroop task
+task stroop_emotion
+  table emotion
+  keys r g b y
+  # show fixation cross
+  delay 500
+  show bitmap fixpoint # stimulus 1
+  delay 200
+  clear 1 # remove fixpoint 
+  delay 100
+  # show coloured word
+  if @2 == 1
+    show text @1 0 0 red
+  fi
+  if @2 == 2
+    show text @1 0 0 green
+  fi
+  if @2 == 3
+    show text @1 0 0 38 139 235 # this is for blue
+  fi
+  if @2 == 4
+    show text @1 0 0 yellow
+  fi
+  readkey @2 3000
+  clear -1 # remove word
+  # check if correct colour picked
+  if STATUS == CORRECT
+    show bitmap correct # stimulus 3 (feedback)
+  else  
+    show bitmap mistake # incorrect answer
+  fi
+  delay 500
+  clear 3 # remove feedback stimulus
+  save BLOCKORDER BLOCKNAME @1 @3 @4 KEY STATUS RT 
+  #save blockorder, blockname, word, valence, colour, key_pressed, correct_status, reaction time
+    # status: 0 = wrong, 1 = correct
+###################################################################################
+# create experiment blocks
+
+block induction
+  # uncomment below and remove "message mood_induction" if you want to input text directly
+  #text "mood induction" -100 0 white
+  #delay 5000
+  #wait_for_key
+  message mood_induction
+  message instruction1
+  message instruction2
+  end
+
+block standard_stroop
+  tasklist
+    stroop_standard 1  # run the stroop task 40 trials.
+  end
+
+block emotional_stroop
+tasklist  
+  stroop_emotion 1 
+  end
+
+block message_standard
+  text "standard stroop" -100 0 white
+  text "press space to continue" -100 100 white
+  delay 3000 # keep a small delay so people don't accidentally double click
+  wait_for_key
+
+block message_emotion
+  text "emotion stroop" -100 0 white
+  text "press space to continue" -100 100 white
+  delay 3000
+  wait_for_key
+
+block thank_you
+  delay 200
+  # should probably just use a picture for this part.
+  text "Thank you for participating in" -100 0 white
+  text "this study. Press space to end" -100 100 white
+  delay 3000
+  wait_for_key
+
+########################################################################
+# run block orders
+
+# this is blockorder 1: standard stroop first
+blockorder
+  induction
+  message_standard
+  standard_stroop
+  message_emotion
+  emotional_stroop
+  thank_you
+
+# this is blockorder 2: emotion stroop first
+blockorder
+  induction
+  message_emotion
+  emotional_stroop
+  message_standard
+  standard_stroop
+  thank_you
