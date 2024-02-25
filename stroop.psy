@@ -19,87 +19,20 @@ fonts
 ## could use all_before_repeat to randomly use each in table before repeating
 ## could also use fixed to make trials go in order as table
 table stroop
-  # congruent trials
-  "RED"     "red"     "congruent"     1
-  "GREEN"   "green"   "congruent"     2
-  "BLUE"    "blue"    "congruent"     3
-  "YELLOW"  "yellow"  "congruent"     4
-  # incongruent red colour
-  "GREEN"   "red"     "incongruent"   1
-  "BLUE"    "red"     "incongruent"   1
-  "YELLOW"  "red"     "incongruent"   1
-  # incongruent green colour
-  "RED"     "green"   "incongruent"   2
-  "BLUE"    "green"   "incongruent"   2
-  "YELLOW"  "green"   "incongruent"   2
-  # incongruent blue colour
-  "RED"     "blue"    "incongruent"   3
-  "GREEN"   "blue"    "incongruent"   3
-  "YELLOW"  "blue"    "incongruent"   3
-  # incongruent yellow colour
-  "RED"     "yellow"  "incongruent"   4
-  "GREEN"   "yellow"  "incongruent"   4
-  "BLUE"    "yellow"  "incongruent"   4
-
-# order: word, colour, congruency, key 
-# colours: 1 = red, 2 = g, 3 = b, 4 = y
+  include stroop_standard.txt
 
 # table for emotional stroop
 ## could have a different proportion of negative words and all_before_repeat them per block
 ## 1 = r, 2 = g, 3 = b, 4 = y
 table emotion
-  "HATE"    "red"      "negative"   1 
-  "HATE"    "green"    "negative"   2
-  "HATE"    "blue"     "negative"   3
-  "HATE"    "yellow"   "negative"   4
-  "HAPPY"   "red"      "positive"   1
-  "HAPPY"   "green"    "positive"   2
-  "HAPPY"   "blue"     "positive"   3
-  "HAPPY"   "yellow"   "positive"   4
-  "CHAIR"   "red"      "neutral"    1
-  "CHAIR"   "green"    "neutral"    2
-  "CHAIR"   "blue"     "neutral"    3
-  "CHAIR"   "yellow"   "neutral"    4
+  include stroop_emotion.txt
 
 ###################################################################################
 # tasks for different block conditions
 
-task stroop_standard
-  table stroop
-  keys r g b y
-  delay 500
-  show bitmap fixpoint # stimulus 1
-  delay 200
-  clear 1 # remove fixpoint 
-# show coloured word
-  if @4 == 1
-    show text @1 0 0 red
-  fi
-  if @4 == 2
-    show text @1 0 0 green
-  fi
-  if @4 == 3
-    show text @1 0 0 38 139 235 # this is for blue
-  fi
-  if @4 == 4
-    show text @1 0 0 yellow
-  fi
-  readkey @4 3000
-  clear -1 # remove word
-  if STATUS == CORRECT
-    show bitmap correct # stimulus 3 (feedback)
-  fi
-  if STATUS != CORRECT  # stimulus 3 (feedback)
-    show bitmap mistake
-  fi
-  delay 500
-  clear 3 # remove feedback stimulus
-  save BLOCKORDER BLOCKNAME @1 @2 @3 KEY STATUS RT 
-  # blockorder, blockname, word, colour, congruency, key pressed, correct status, reaction time
+# part for Stroop process; NOTE: parts MUST have an empty line before they start
 
-# emotional stroop task
-task stroop_emotion
-  table emotion
+part show_stimulus_and_check_colour_key
   keys r g b y
   # show fixation cross
   delay 500
@@ -130,9 +63,21 @@ task stroop_emotion
   fi
   delay 500
   clear 3 # remove feedback stimulus
+
+task stroop_standard
+  table stroop
+  part show_stimulus_and_check_colour_key # lines of code from above part
+  save BLOCKORDER BLOCKNAME @1 @2 @3 KEY STATUS RT 
+  # blockorder, blockname, word, colour, congruency, key pressed, correct status, reaction time
+    # status: 0 = wrong, 1 = correct
+
+# emotional stroop task
+task stroop_emotion
+  table emotion
+  part show_stimulus_and_check_colour_key
   save BLOCKORDER BLOCKNAME @1 @2 @3 KEY STATUS RT 
   #save blockorder, blockname, word, colour, valence, key_pressed, correct_status, reaction time
-    # status: 0 = wrong, 1 = correct
+    
 ###################################################################################
 # create experiment blocks
 
@@ -152,8 +97,8 @@ block standard_stroop
   end
 
 block emotional_stroop
-tasklist  
-  stroop_emotion 5 
+  tasklist  
+    stroop_emotion 5 
   end
 
 block message_standard
@@ -179,7 +124,7 @@ block thank_you
 ########################################################################
 # run block orders
 
-# this is blockorder 1: standard stroop first
+# blockorder1: standard stroop first
 blockorder
   induction
   message_standard
@@ -188,7 +133,7 @@ blockorder
   emotional_stroop
   thank_you
 
-# this is blockorder 2: emotion stroop first
+# blockorder 2: emotion stroop first
 blockorder
   induction
   message_emotion
