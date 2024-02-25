@@ -6,23 +6,7 @@ bitmaps
   correct
   mistake
   fixpoint
-  yellowyellow 
-  yellowgreen  
-  yellowblue   
-  yellowred    
-  redyellow    
-  redgreen     
-  redblue      
-  redred       
-  greenyellow  
-  greengreen   
-  greenblue    
-  greenred     
-  blueyellow   
-  bluegreen    
-  blueblue     
-  bluered 
-  # this is where images for emotionally valenced, coloured words would go     
+  # my bitmaps
   mood_induction    
 
 fonts
@@ -56,9 +40,7 @@ table stroop
   "RED"     "yellow"  "incongruent"   4
   "GREEN"   "yellow"  "incongruent"   4
   "BLUE"    "yellow"  "incongruent"   4
-  
-  "BLUE"    "yellow"  "incongruent"   4
-  "YELLOW"  "blue"    "incongruent"   3
+
 # order: word, colour, congruency, key 
 # colours: 1 = red, 2 = g, 3 = b, 4 = y
 
@@ -66,18 +48,18 @@ table stroop
 ## could have a different proportion of negative words and all_before_repeat them per block
 ## 1 = r, 2 = g, 3 = b, 4 = y
 table emotion
-  "hate"    "negative"   "red"     1 
-  "hate"    "negative"   "green"   2
-  "hate"    "negative"   "blue"    3
-  "hate"    "negative"   "yellow"  4
-  "happy"   "positive"   "red"     1
-  "happy"   "positive"   "green"   2
-  "happy"   "positive"   "blue"    3
-  "happy"   "positive"   "yellow"  4
-  "chair"   "neutral"    "red"     1
-  "chair"   "neutral"    "green"   2
-  "chair"   "neutral"    "blue"    3
-  "chair"   "neutral"    "yellow"  4
+  "HATE"    "red"      "negative"   1 
+  "HATE"    "green"    "negative"   2
+  "HATE"    "blue"     "negative"   3
+  "HATE"    "yellow"   "negative"   4
+  "HAPPY"   "red"      "positive"   1
+  "HAPPY"   "green"    "positive"   2
+  "HAPPY"   "blue"     "positive"   3
+  "HAPPY"   "yellow"   "positive"   4
+  "CHAIR"   "red"      "neutral"    1
+  "CHAIR"   "green"    "neutral"    2
+  "CHAIR"   "blue"     "neutral"    3
+  "CHAIR"   "yellow"   "neutral"    4
 
 ###################################################################################
 # tasks for different block conditions
@@ -90,19 +72,19 @@ task stroop_standard
   delay 200
   clear 1 # remove fixpoint 
 # show coloured word
-  if @2 == 1
+  if @4 == 1
     show text @1 0 0 red
   fi
-  if @2 == 2
+  if @4 == 2
     show text @1 0 0 green
   fi
-  if @2 == 3
+  if @4 == 3
     show text @1 0 0 38 139 235 # this is for blue
   fi
-  if @2 == 4
+  if @4 == 4
     show text @1 0 0 yellow
   fi
-  readkey @2 3000
+  readkey @4 3000
   clear -1 # remove word
   if STATUS == CORRECT
     show bitmap correct # stimulus 3 (feedback)
@@ -112,8 +94,8 @@ task stroop_standard
   fi
   delay 500
   clear 3 # remove feedback stimulus
-  save BLOCKORDER BLOCKNAME @1 KEY STATUS RT 
-  # blockorder, blockname, word, colour, , key pressed, correct status, reaction time
+  save BLOCKORDER BLOCKNAME @1 @2 @3 KEY STATUS RT 
+  # blockorder, blockname, word, colour, congruency, key pressed, correct status, reaction time
 
 # emotional stroop task
 task stroop_emotion
@@ -149,7 +131,7 @@ task stroop_emotion
   delay 500
   clear 3 # remove feedback stimulus
   save BLOCKORDER BLOCKNAME @1 @2 @3 KEY STATUS RT 
-  #save blockorder, blockname, word, valence, colour, key_pressed, correct_status, reaction time
+  #save blockorder, blockname, word, colour, valence, key_pressed, correct_status, reaction time
     # status: 0 = wrong, 1 = correct
 ###################################################################################
 # create experiment blocks
@@ -166,12 +148,12 @@ block induction
 
 block standard_stroop
   tasklist
-    stroop_standard 1  # run the stroop task 40 trials.
+    stroop_standard 5  # run the stroop task 40 trials.
   end
 
 block emotional_stroop
 tasklist  
-  stroop_emotion 1 
+  stroop_emotion 5 
   end
 
 block message_standard
