@@ -1,0 +1,24 @@
+# congruent trials
+"RED"     "red"     "congruent"     1
+"GREEN"   "green"   "congruent"     2
+"BLUE"    "blue"    "congruent"     3
+"YELLOW"  "yellow"  "congruent"     4
+# incongruent red colour
+"GREEN"   "red"     "incongruent"   1
+"BLUE"    "red"     "incongruent"   1
+"YELLOW"  "red"     "incongruent"   1
+# incongruent green colour
+"RED"     "green"   "incongruent"   2
+"BLUE"    "green"   "incongruent"   2
+"YELLOW"  "green"   "incongruent"   2
+# incongruent blue colour
+"RED"     "blue"    "incongruent"   3
+"GREEN"   "blue"    "incongruent"   3
+"YELLOW"  "blue"    "incongruent"   3
+# incongruent yellow colour
+"RED"     "yellow"  "incongruent"   4
+"GREEN"   "yellow"  "incongruent"   4
+"BLUE"    "yellow"  "incongruent"   4
+
+# order: word, colour, congruency, key 
+# colours: 1 = red, 2 = g, 3 = b, 4 = y
