@@ -1,7 +1,15 @@
 # congruent trials
 "RED"     "red"     "congruent"     1
+"RED"     "red"     "congruent"     1
+"RED"     "red"     "congruent"     1
+"GREEN"   "green"   "congruent"     2
+"GREEN"   "green"   "congruent"     2
 "GREEN"   "green"   "congruent"     2
 "BLUE"    "blue"    "congruent"     3
+"BLUE"    "blue"    "congruent"     3
+"BLUE"    "blue"    "congruent"     3
+"YELLOW"  "yellow"  "congruent"     4
+"YELLOW"  "yellow"  "congruent"     4
 "YELLOW"  "yellow"  "congruent"     4
 # incongruent red colour
 "GREEN"   "red"     "incongruent"   1
@@ -22,3 +30,5 @@
 
 # order: word, colour, congruency, key 
 # colours: 1 = red, 2 = g, 3 = b, 4 = y
+
+# NOTE: extra congruent rows were added to have a 50% congruency ratio. 

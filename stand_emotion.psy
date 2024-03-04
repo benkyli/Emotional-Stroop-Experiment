@@ -1,0 +1,194 @@
+# Script for running a standard Stroop first and emotional Stroop second
+
+# loading images and basic parameters
+
+bitmaps
+  fixpoint
+  mood_induction 
+  instruction_standard
+  instruction_emotion
+  prepare
+  rest
+  nexttask
+  thankyou
+
+fonts
+  arial 40
+
+######################################################################################
+# table section for different block conditions
+
+# table for standard stroop
+table stroop_standard
+  include stroop_standard.txt
+
+# tables for emotionally valenced words
+table stroop_negative
+  include stroop_negative.txt
+
+table stroop_neutral
+  include stroop_neutral.txt
+
+table stroop_positive
+  include stroop_positive.txt
+
+###################################################################################
+# tasks for different block conditions
+
+# part for Stroop process; NOTE: part functions MUST have an empty line before they start
+
+part show_stimulus_and_check_colour_key
+  keys r g b y
+  # show fixation cross
+  delay 500
+  show bitmap fixpoint # stimulus 1
+  delay 200
+  clear 1 # remove fixpoint 
+  delay 100
+  # show coloured word
+  if @4 == 1
+    show text @1 0 0 red
+  fi
+  if @4 == 2
+    show text @1 0 0 green
+  fi
+  if @4 == 3
+    show text @1 0 0 38 139 235 # this is for blue
+  fi
+  if @4 == 4
+    show text @1 0 0 yellow
+  fi
+  readkey @4 1500
+  clear -1 # remove word
+  save BLOCKNAME @1 @2 @3 KEY STATUS RT
+  
+# standard: blockname, word, colour, congruency, key pressed, correct status, reaction time
+# emotion:  blockname, word, colour, valence, key_pressed, correct_status, reaction time
+  # status: 0 = wrong, 1 = correct
+
+# task functions for standard stroop and each emotional stroop valence
+task stroop_standard
+  table stroop_standard
+  part show_stimulus_and_check_colour_key # lines of code from above part
+   
+task stroop_negative
+  table stroop_negative
+  part show_stimulus_and_check_colour_key
+
+task stroop_neutral
+  table stroop_neutral
+  part show_stimulus_and_check_colour_key
+
+task stroop_positive
+  table stroop_positive
+  part show_stimulus_and_check_colour_key
+
+# workaround for showing nothing in blocks
+task wait
+  delay 1000
+    
+###################################################################################
+# create experiment blocks
+
+block induction
+  bitmap mood_induction
+  delay 120000
+  end
+
+block instruction_stroop_standard
+  bitmap instruction_standard
+  delay 3000
+  wait_for_key
+
+block instruction_stroop_emotion
+  bitmap instruction_emotion
+  delay 3000
+  wait_for_key
+
+block prepare
+  bitmap prepare
+  delay 10000
+  tasklist
+    wait 1
+  end
+
+block standard_stroop
+  tasklist
+    stroop_standard 16  # number indicates how many trials per block
+  end
+
+block stroop_negative
+  tasklist  
+    stroop_negative 16
+  end
+
+block stroop_neutral
+  tasklist  
+    stroop_neutral 16
+  end
+
+block stroop_positive
+  tasklist  
+    stroop_positive 16
+  end
+
+block rest
+  bitmap rest
+  delay 15000
+  tasklist
+    wait 1
+  end
+
+block nexttask
+  bitmap nexttask
+  delay 4000
+
+block thank_you
+  delay 1000
+  bitmap thankyou
+  delay 1500
+  wait_for_key
+
+########################################################################
+# run block experiment
+
+# standard stroop first
+blockorder
+  induction
+  instruction_stroop_standard
+  prepare
+  standard_stroop
+  standard_stroop
+  standard_stroop
+  rest
+  standard_stroop
+  standard_stroop
+  standard_stroop
+  rest
+  standard_stroop
+  standard_stroop
+  standard_stroop
+  rest
+  standard_stroop
+  standard_stroop
+  standard_stroop
+  nexttask
+  instruction_stroop_emotion
+  prepare
+  stroop_positive
+  stroop_neutral
+  stroop_negative
+  rest
+  stroop_positive
+  stroop_negative
+  stroop_neutral
+  rest
+  stroop_negative
+  stroop_positive
+  stroop_neutral
+  rest
+  stroop_negative
+  stroop_neutral
+  stroop_positive
+  thank_you
+

@@ -1,0 +1,94 @@
+# Survey file
+
+page: begin
+
+l: sex
+t: radio
+q: <b>What is your sex assigned at birth?</b>
+- Male
+- Female
+- Intersex
+- Prefer not to answer
+
+l: age
+t: textline
+q: <b>What is your age in number of years? (Ages 14 to 100)</b>
+- {min=18,max=100} 
+
+page: end
+
+page: begin
+
+scale: frequency
+- almost never
+- sometimes
+- often
+- almost always
+
+l: rumination
+t: scale frequency
+o: random
+q: People think and do many different things when they feel depressed. Please read each of the items below and indicate whether you almost never, sometimes, often, or almost always think or do each one when you feel down, sad, or depressed.
+<p>Please indicate what you <b><i>generally</i></b> do, not what you think you should do.</p>
+<b>How often do you...</b>
+- think about how alone you feel
+- think “I won’t be able to do my job if I don’t snap out of this”
+- think about your feelings of fatigue and achiness
+- think about how hard it is to concentrate
+- think “What am I doing to deserve this?”
+- think about how passive and unmotivated you feel
+- analyze recent events to try to understand why you are depressed
+- think about how you don’t seem to feel anything anymore
+- think “Why can’t I get going?”
+- think “Why do I always react this way?”
+- go away by yourself and think about why you feel this way
+- write down what you are thinking about and analyze it
+- think about a recent situation, wishing it had gone better
+- think “I won’t be able to concentrate if I keep feeling this way.”
+- think “Why do I have problems other people don’t have?”
+- think “Why can’t I handle things better?”
+- think about how sad you feel
+- think about all your shortcomings, failings, faults, mistakes
+- think about how you don’t feel up to doing anything
+- analyze your personality to try to understand why you are depressed
+- go someplace alone to think about your feelings
+- think about how angry you are with yourself
+
+
+page: end
+
+page: begin
+
+l: bsri
+t: range
+q: Please respond to the following items by referring to the way you feel or think right now. For each item, please move the marker on the horizontal line to indicate the degree to which you agree or disagree with the statement.<br>
+All items are measured on a 100-mm visual analogue scale (VAS) ranging from “completely disagree” (0) to “completely agree” (100). 
+- {left=0,right=100,start=50,min=0,max=100} <b>Right now, I am reflecting about my mood.</b> 
+- {left=0,right=100,start=50,min=0,max=100} <b>Right now, I wonder why I react the way I do.</b>
+- {left=0,right=100,start=50,min=0,max=100} <b>Right now, I wonder why I always feel the way I do.</b>
+- {left=0,right=100,start=50,min=0,max=100} <b>Right now, I am thinking, “why do I have problems other people don't have?”.</b>
+- {left=0,right=100,start=50,min=0,max=100} <b>Right now, I am rehashing in my mind recent things I've said or done.</b>
+- {left=0,right=100,start=50,min=0,max=100} <b>Right now, I am thinking: “why can't I handle things better?”.</b>
+- {left=0,right=100,start=50,min=0,max=100} <b>Right now, it is hard for me to shut off negative thoughts about myself.</b>
+- {left=0,right=100,start=50,min=0,max=100} <b>Right now, I wonder why I can’t respond in a better way.</b>
+
+page: end
+
+l: counterbalance
+t: jump
+- if $psy_group = 1 then goto standard_first
+- if $psy_group = 2 then goto emotion_first
+
+l: standard_first
+t: experiment
+- Standard_Emotion_Stroop
+
+j: end
+
+l: emotion_first
+t: experiment
+- Emotion_Standard_Stroop
+
+l: end
+t: info
+q: You have completed the study.
