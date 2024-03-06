@@ -58,7 +58,7 @@ part show_stimulus_and_check_colour_key
   if @4 == 4
     show text @1 0 0 yellow
   fi
-  readkey @4 1500
+  readkey @4 2000
   clear -1 # remove word
   save BLOCKNAME @1 @2 @3 KEY STATUS RT
   
