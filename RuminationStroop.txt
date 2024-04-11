@@ -1,5 +1,3 @@
-# Survey file
-
 page: begin
 
 l: sex
@@ -13,7 +11,7 @@ q: <b>What is your sex assigned at birth?</b>
 l: age
 t: textline
 q: <b>What is your age in number of years? (Ages 14 to 100)</b>
-- {min=18,max=100} 
+- {require, min=14, max=100} 
 
 page: end
 
@@ -27,7 +25,6 @@ scale: frequency
 
 l: rumination
 t: scale frequency
-o: random
 q: People think and do many different things when they feel depressed. Please read each of the items below and indicate whether you almost never, sometimes, often, or almost always think or do each one when you feel down, sad, or depressed.
 <p>Please indicate what you <b><i>generally</i></b> do, not what you think you should do.</p>
 <b>How often do you...</b>
@@ -91,4 +88,6 @@ t: experiment
 
 l: end
 t: info
-q: You have completed the study.
+o: end
+q: Thank you for participating. Click the prolific link below to confirm your completion. 
+<a href='insert redirect link here'>Confirm completion</a>
