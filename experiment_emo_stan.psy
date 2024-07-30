@@ -3,7 +3,14 @@
 # loading images and basic parameters
 
 bitmaps
-  images
+  fixpoint                images/fixpoint.webp
+  mood_induction          images/mood_induction.png
+  instruction_standard    images/instruction_standard.png
+  instruction_emotion     images/instruction_emotion.png
+  prepare                 images/prepare.png
+  rest                    images/rest.png
+  nexttask                images/nexttask.png
+  thankyou                images/thankyou.png
 
 fonts
   arial 40
@@ -13,17 +20,17 @@ fonts
 
 # table for standard stroop
 table stroop_standard
-  include stroop_standard.txt
+  include words_standard.txt
 
 # tables for emotionally valenced words
 table stroop_negative
-  include stroop_negative.txt
+  include words_negative.txt
 
 table stroop_neutral
-  include stroop_neutral.txt
+  include words_neutral.txt
 
 table stroop_positive
-  include stroop_positive.txt
+  include words_positive.txt
 
 ###################################################################################
 # tasks for different block conditions
