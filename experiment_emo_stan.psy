@@ -3,14 +3,7 @@
 # loading images and basic parameters
 
 bitmaps
-  fixpoint
-  mood_induction 
-  instruction_standard
-  instruction_emotion
-  prepare
-  rest
-  nexttask
-  thankyou
+  images
 
 fonts
   arial 40
