@@ -2,7 +2,7 @@
 
 ### Live Demo: https://us.psytoolkit.org/c/3.4.6/survey?s=MsYmQ
 
-#### Files in this repository were used to conduct an experiment involving the Stroop task and emotional Stroop task. The experiment was creating using the PsyToolKit framework. The original experiment investigated the effect of rumination on the Stroop task, so the questionnaires and prompts leading up to the Stroop experiment are related to rumination.
+#### Files in this repository were used to conduct an experiment involving the Stroop task and emotional Stroop task. The experiment was creating using the PsyToolKit framework. The original experiment investigated the effect of rumination on the Stroop task.
 
 ## Setup on your own PsyToolKit account
 
